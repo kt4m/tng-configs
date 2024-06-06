@@ -1,0 +1,9 @@
+prometheus:
+  prometheusSpec:
+    remoteRead: 
+      - url: http://remote1/read
+        name: test
+        remoteTimeout: 60s
+        basicAuth: 
+          username: user
+          password: pass
