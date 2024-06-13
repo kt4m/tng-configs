@@ -1,0 +1,250 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: "2024-05-31T11:27:53Z"
+  generation: 1
+  name: iamroles.iam.crossplane.hsp.io
+  ownerReferences:
+  - apiVersion: apiextensions.crossplane.io/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: CompositeResourceDefinition
+    name: xiamroles.iam.crossplane.hsp.io
+    uid: 75736221-68f2-4723-a2e7-ac378b273fe0
+  resourceVersion: "17188734"
+  uid: 4dc21e18-b9e5-44e5-8d97-06e9c333d69f
+spec:
+  conversion:
+    strategy: None
+  group: iam.crossplane.hsp.io
+  names:
+    categories:
+    - claim
+    kind: IAMRole
+    listKind: IAMRoleList
+    plural: iamroles
+    singular: iamrole
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .spec.writeConnectionSecretToRef.name
+      name: CONNECTION-SECRET
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            properties:
+              name:
+                maxLength: 63
+                type: string
+            type: object
+          spec:
+            properties:
+              compositeDeletePolicy:
+                default: Background
+                enum:
+                - Background
+                - Foreground
+                type: string
+              compositionRef:
+                properties:
+                  name:
+                    type: string
+                required:
+                - name
+                type: object
+              compositionRevisionRef:
+                properties:
+                  name:
+                    type: string
+                required:
+                - name
+                type: object
+              compositionRevisionSelector:
+                properties:
+                  matchLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                required:
+                - matchLabels
+                type: object
+              compositionSelector:
+                properties:
+                  matchLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                required:
+                - matchLabels
+                type: object
+              compositionUpdatePolicy:
+                enum:
+                - Automatic
+                - Manual
+                type: string
+              parameters:
+                description: IAM Role configuration parameters.
+                properties:
+                  policyArn:
+                    description: The policy ARN that will be attached to the role.
+                    type: string
+                  serviceAccount:
+                    description: Service account information for creating IAM role.
+                    properties:
+                      name:
+                        description: service account name.
+                        type: string
+                      namespace:
+                        description: service account namespace.
+                        type: string
+                    required:
+                    - name
+                    - namespace
+                    type: object
+                  useResourcePrefix:
+                    default: false
+                    description: If true, the resource prefix will be used as prefix
+                      in the role name.
+                    type: boolean
+                required:
+                - serviceAccount
+                type: object
+              publishConnectionDetailsTo:
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    properties:
+                      name:
+                        type: string
+                    type: object
+                  metadata:
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      type:
+                        type: string
+                    type: object
+                  name:
+                    type: string
+                required:
+                - name
+                type: object
+              resourceRef:
+                properties:
+                  apiVersion:
+                    type: string
+                  kind:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - apiVersion
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                properties:
+                  name:
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - parameters
+            type: object
+          status:
+            properties:
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  properties:
+                    lastTransitionTime:
+                      format: date-time
+                      type: string
+                    message:
+                      type: string
+                    reason:
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              connectionDetails:
+                properties:
+                  lastPublishedTime:
+                    format: date-time
+                    type: string
+                type: object
+              observed:
+                description: Free-form observations about the current state of the
+                  resource.
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              policyArn:
+                description: The ARN of the policy.
+                type: string
+              roleArn:
+                description: The ARN of the role.
+                type: string
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    categories:
+    - claim
+    kind: IAMRole
+    listKind: IAMRoleList
+    plural: iamroles
+    singular: iamrole
+  conditions:
+  - lastTransitionTime: "2024-05-31T11:27:53Z"
+    message: no conflicts found
+    reason: NoConflicts
+    status: "True"
+    type: NamesAccepted
+  - lastTransitionTime: "2024-05-31T11:27:54Z"
+    message: the initial names have been accepted
+    reason: InitialNamesAccepted
+    status: "True"
+    type: Established
+  storedVersions:
+  - v1alpha1
