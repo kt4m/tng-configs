@@ -1,0 +1,104 @@
+highAvailability:
+  enabled: true
+  replicas: 2
+destination:
+  server: https://kubernetes.default.svc
+  namespace: argocd
+vpa:
+  enabled: true
+  application-set:
+    minMemoryMultiplier: 0.6
+    maxMemoryMultiplier: 2.0
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 15m
+      memory: 96Mi
+  controller:
+    minMemoryMultiplier: 0.6
+    maxMemoryMultiplier: 2.0
+    limits:
+      memory: 3.5Gi
+    requests:
+      cpu: 400m
+      memory: 2.5Gi
+  dex:
+    minMemoryMultiplier: 0.3
+    maxMemoryMultiplier: 1.8
+    limits:
+      memory: 120Mi
+    requests:
+      cpu: 10m
+      memory: 104Mi
+  envsubst-plugin:
+    minMemoryMultiplier: 0.3
+    maxMemoryMultiplier: 1.8
+    limits:
+      memory: 368Mi
+    requests:
+      cpu: 50m
+      memory: 256Mi
+  notification:
+    minMemoryMultiplier: 0.3
+    maxMemoryMultiplier: 1.8
+    limits:
+      memory: 64Mi
+    requests:
+      cpu: 15m
+      memory: 48Mi
+  redis:
+    minMemoryMultiplier: 0.3
+    maxMemoryMultiplier: 1.8
+    limits:
+      memory: 24Mi
+    requests:
+      cpu: 15m
+      memory: 16Mi
+  redis-exporter:
+    minMemoryMultiplier: 0.3
+    maxMemoryMultiplier: 1.8
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi
+  redis-haproxy:
+    minMemoryMultiplier: 0.3
+    maxMemoryMultiplier: 1.8
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  redis-sentinel:
+    minMemoryMultiplier: 0.3
+    maxMemoryMultiplier: 1.8
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  redis-splitbrain:
+    minMemoryMultiplier: 0.3
+    maxMemoryMultiplier: 1.8
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi
+  repo-server:
+    minMemoryMultiplier: 0.3
+    maxMemoryMultiplier: 1.8
+    limits:
+      memory: 368Mi
+    requests:
+      cpu: 50m
+      memory: 256Mi
+  server:
+    minMemoryMultiplier: 0.8
+    maxMemoryMultiplier: 2.0
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 30m
+      memory: 256Mi
